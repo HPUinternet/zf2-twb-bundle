@@ -62,16 +62,16 @@ class TwbBundleFormRow extends FormRow
         //Partial rendering
         if ($this->partial) {
             return $this->view->render($this->partial, array(
-                        'element' => $oElement,
-                        'label' => $this->renderLabel($oElement),
-                        'labelAttributes' => $this->labelAttributes,
-                        'labelPosition' => $this->labelPosition,
-                        'renderErrors' => $this->renderErrors,
+                'element' => $oElement,
+                'label' => $this->renderLabel($oElement),
+                'labelAttributes' => $this->labelAttributes,
+                'labelPosition' => $this->labelPosition,
+                'renderErrors' => $this->renderErrors,
             ));
         }
 
         $sRowClass = '';
-        
+
         if( $fgs = $oElement->getOption('twb-form-group-size') ){
             $sRowClass = $fgs;
         }
@@ -228,7 +228,7 @@ class TwbBundleFormRow extends FormRow
                     $sElementContent = sprintf(self::$checkboxFormat, $sElementContent);
                 } else {
                     if ($this->getLabelPosition() === self::LABEL_PREPEND) {
-                        $sElementContent = $sLabelOpen . $sLabelContent . $sLabelClose . $sElementContent;
+                        $sElementContent = '<div class="input-group">' . $sLabelOpen . $sLabelContent . $sLabelClose . $sElementContent . '</div>';
                     } else {
                         $sElementContent = $sElementContent . $sLabelOpen . $sLabelContent . $sLabelClose;
                     }
