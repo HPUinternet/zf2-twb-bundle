@@ -44,10 +44,10 @@ class TwbBundleFormElement extends FormElement implements TranslatorAwareInterfa
      * @var boolean
      */
     protected $translatorEnabled = true;
-    
+
     /**
      * Hold configurable options
-     * @var ModuleOptions 
+     * @var ModuleOptions
      */
     protected $options;
 
@@ -66,7 +66,7 @@ class TwbBundleFormElement extends FormElement implements TranslatorAwareInterfa
         'Zend\Form\Element\MonthSelect' => 'formmonthselect',
         'TwbBundle\Form\Element\StaticElement' => 'formStatic',
     );
-    
+
     public function __construct(ModuleOptions $options)
     {
         if (is_array($options->getTypeMap())) {
@@ -95,7 +95,9 @@ class TwbBundleFormElement extends FormElement implements TranslatorAwareInterfa
                     $oElement->setAttribute('class', trim($sElementClass . ' form-control'));
                 }
             } else {
-                $oElement->setAttribute('class', 'form-control');
+                if($sElementType != 'multi_checkbox') {
+                    $oElement->setAttribute('class', 'form-control');
+                }
             }
         }
 
@@ -171,7 +173,7 @@ class TwbBundleFormElement extends FormElement implements TranslatorAwareInterfa
         } elseif (!empty($aAddOnOptions['element'])) {
             if (is_array($aAddOnOptions['element']) ||
                 ($aAddOnOptions['element'] instanceof Traversable &&
-                !($aAddOnOptions['element'] instanceof ElementInterface))
+                    !($aAddOnOptions['element'] instanceof ElementInterface))
             ) {
                 $oFactory = new Factory();
                 $aAddOnOptions['element'] = $oFactory->create($aAddOnOptions['element']);
@@ -181,12 +183,12 @@ class TwbBundleFormElement extends FormElement implements TranslatorAwareInterfa
                     is_object($aAddOnOptions['element']) ? get_class($aAddOnOptions['element']) : gettype($aAddOnOptions['element'])
                 ));
             }
-            
+
             $aAddOnOptions['element']->setOptions(array_merge(
                 $aAddOnOptions['element']->getOptions(),
                 array('disable-twb' => true)
             ));
-            
+
             $sMarkup .= $this->render($aAddOnOptions['element']);
 
             if ($aAddOnOptions['element'] instanceof Button) {
