@@ -81,6 +81,8 @@ class TwbBundleFormButton extends FormButton
             $sIconHelperMethod = 'glyphicon';
         } elseif (null !== ($aIconOptions = $oElement->getOption('fontAwesome'))) {
             $sIconHelperMethod = 'fontAwesome';
+        } elseif (null !== ($aIconOptions = $oElement->getOption('flaticon'))) {
+            $sIconHelperMethod = 'flaticon';
         }
 
         /*

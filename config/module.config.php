@@ -47,6 +47,8 @@ return array(
             'glyphicon' => 'TwbBundle\View\Helper\TwbBundleGlyphicon',
             //FontAwesome
             'fontAwesome' => 'TwbBundle\View\Helper\TwbBundleFontAwesome',
+            //Flaticon
+            'flaticon' => 'TwbBundle\View\Helper\TwbBundleFlaticon',
             //Label
             'label' => 'TwbBundle\View\Helper\TwbBundleLabel'
         ),
