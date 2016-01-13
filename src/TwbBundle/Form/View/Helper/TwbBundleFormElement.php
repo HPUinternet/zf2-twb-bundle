@@ -90,12 +90,12 @@ class TwbBundleFormElement extends FormElement implements TranslatorAwareInterfa
         if (!in_array($sElementType, $this->options->getIgnoredViewHelpers()) &&
             !($oElement instanceof Collection)
         ) {
-            if ($sElementClass = $oElement->getAttribute('class')) {
-                if (!preg_match('/(\s|^)form-control(\s|$)/', $sElementClass)) {
-                    $oElement->setAttribute('class', trim($sElementClass . ' form-control'));
-                }
-            } else {
-                if($sElementType != 'multi_checkbox') {
+            if ($sElementType != 'multi_checkbox' && $sElementType != 'checkbox' && $sElementType != 'button') {
+                if ($sElementClass = $oElement->getAttribute('class')) {
+                    if (!preg_match('/(\s|^)form-control(\s|$)/', $sElementClass)) {
+                        $oElement->setAttribute('class', trim($sElementClass . ' form-control'));
+                    }
+                } else {
                     $oElement->setAttribute('class', 'form-control');
                 }
             }
