@@ -18,6 +18,10 @@ class TwbBundleFormRow extends FormRow
      * @var string
      */
     protected static $formGroupFormat = '<div class="form-group %s">%s</div>';
+    /**
+     * @var string
+     */
+    protected static $inputGroupFormat = '<div class="input-group %s">%s</div>';
 
     /**
      * @var string
@@ -65,17 +69,17 @@ class TwbBundleFormRow extends FormRow
         //Partial rendering
         if ($this->partial) {
             return $this->view->render($this->partial, array(
-                        'element' => $oElement,
-                        'label' => $this->renderLabel($oElement),
-                        'labelAttributes' => $this->labelAttributes,
-                        'labelPosition' => $this->labelPosition,
-                        'renderErrors' => $this->renderErrors,
+                'element' => $oElement,
+                'label' => $this->renderLabel($oElement),
+                'labelAttributes' => $this->labelAttributes,
+                'labelPosition' => $this->labelPosition,
+                'renderErrors' => $this->renderErrors,
             ));
         }
 
         $sRowClass = '';
-        
-        if( $fgs = $oElement->getOption('twb-form-group-size') ){
+
+        if ($fgs = $oElement->getOption('twb-form-group-size')) {
             $sRowClass = $fgs;
         }
 
@@ -160,7 +164,7 @@ class TwbBundleFormRow extends FormRow
             if (($oElement instanceof Button) or ($oElement instanceof Submit)) {
                 $sLabelContent = '';
             } else {
-                $aLabelAttributes = $oElement->getLabelAttributes() ? : $this->labelAttributes;
+                $aLabelAttributes = $oElement->getLabelAttributes() ?: $this->labelAttributes;
 
                 //Validation state
                 if ($oElement->getOption('validation-state') || $oElement->getMessages()) {
@@ -231,8 +235,13 @@ class TwbBundleFormRow extends FormRow
                     $sElementContent = sprintf(self::$checkboxFormat, $sElementContent);
                 } else {
                     if ($this->getLabelPosition() === self::LABEL_PREPEND) {
-                        if(!$oElement instanceof Textarea && !$oElement instanceof Checkbox) {
-                            $sElementContent = '<div class="input-group">' . $sLabelOpen . $sLabelContent . $sLabelClose . $sElementContent . '</div>';
+                        if (!$oElement instanceof Textarea && !$oElement instanceof Checkbox) {
+                            $sRowClass = '';
+                            if ($sInputGroupClass = $oElement->getOption('twb-input-group-class')) {
+                                $sRowClass = $sInputGroupClass;
+                            }
+                            $sElementContent = $sLabelOpen . $sLabelContent . $sLabelClose . $sElementContent;
+                            $sElementContent = sprintf(self::$inputGroupFormat, $sRowClass, $sElementContent);
                         } else {
                             $sElementContent = $sLabelOpen . $sLabelContent . $sLabelClose . $sElementContent;
                         }
@@ -301,7 +310,8 @@ class TwbBundleFormRow extends FormRow
     {
         return ($sHelpBlock = $oElement->getOption('help-block')) ? sprintf(
             self::$helpBlockFormat,
-            $this->getEscapeHtmlHelper()->__invoke(($oTranslator = $this->getTranslator()) ? $oTranslator->translate($sHelpBlock, $this->getTranslatorTextDomain()) : $sHelpBlock)
+            $this->getEscapeHtmlHelper()->__invoke(($oTranslator = $this->getTranslator()) ? $oTranslator->translate($sHelpBlock,
+                $this->getTranslatorTextDomain()) : $sHelpBlock)
         ) : '';
     }
 }
